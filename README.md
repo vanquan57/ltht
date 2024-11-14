@@ -1,5 +1,5 @@
 1. git clone https://github.com/vanquan57/ltht
-2. gcc serve.c -o serve
+2. gcc serve.c -o serve -pthread
 3. gcc client.c -o client
 4. ./serve
 5. ./client
