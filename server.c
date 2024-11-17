@@ -8,12 +8,31 @@
 #include <time.h>
 #include <ctype.h>
 
-
 #define PORT 8080
 
 int clients[100];
 int client_count = 0;
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void log_to_file(int client_id, const char* message) {
+    FILE* file = fopen("output.txt", "a");
+    if (!file) {
+        perror("Không thể mở file output.txt");
+        return;
+    }
+
+    // Lấy thời gian hiện tại
+    time_t now = time(NULL);
+    struct tm *local = localtime(&now);
+
+    // Ghi nội dung vào file
+    fprintf(file, "client id: %d | ngày giờ: %02d:%02d:%02d %02d/%02d/%d | nội dung nhận được: %s\n",
+            client_id,
+            local->tm_hour, local->tm_min, local->tm_sec,
+            local->tm_mday, local->tm_mon + 1, local->tm_year + 1900,
+            message);
+    fclose(file);
+}
 
 void* send_time_to_clients(void* arg) {
     while (1) {
@@ -45,7 +64,11 @@ void* handle_client(void* client_socket) {
             printf("Client đã ngắt kết nối\n");
             break;
         }
+        buffer[valread] = '\0';  // Đảm bảo chuỗi kết thúc
         printf("Tin nhắn từ client: %s\n", buffer);
+
+        // Ghi log vào file
+        log_to_file(sock, buffer);
 
         // Chuyển chuỗi thành in hoa và gửi lại client
         for (int i = 0; buffer[i]; i++) {
