@@ -1,0 +1,3 @@
+Chọn phương thức gửi tin nhắn:
+1. Nhập dữ liệu từ terminal
+2. Nhập đường dẫn file .txt
