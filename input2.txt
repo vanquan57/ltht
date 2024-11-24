@@ -1,3 +1,1 @@
-Chọn phương thức gửi tin nhắn:
-1. Nhập dữ liệu từ terminal
-2. Nhập đường dẫn file .txt
+Quá trình PID:4567 được cấp quyền ưu tiên mức 3 để xử lý task tại CPU core 2 lúc 08:45 ngày 2024-11-22.
